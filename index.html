@@ -33,8 +33,9 @@
                     <li class="nav-item"><a class="nav-link" href="./contactus.html"><span class="fa fa-address-card fa-lg"></span>Contact</a></li>
                 </ul>
                 <span class="navbar-text">
-                    <a data-toggle="modal" data-target="#loginModal">
-                    <span class="fa fa-sign-in"></span> Login</a>
+                  <button class="btn btn-link" id="loginBtn" type="button">
+                    <span class="fa fa-sign-in"></span> Login
+                  </button>
                 </span>
             </div>
         </div>
@@ -53,7 +54,7 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-sm-4">
                                     <label class="sr-only" for="exampleInputEmail3">Email address</label>
                                     <input type="email" class="form-control form-control-sm mr-1" id="exampleInputEmail3" placeholder="Enter email">
@@ -70,7 +71,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <button type="button" class="btn btn-secondary btn-sm ml-auto" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary btn-sm ml-1">Sign in</button>
                         </div>
@@ -90,7 +91,7 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group">
                                     <label for="guestnum" class="col-sm-4">Number of Guests</label>
                                     <input type="radio" name="guestnum" id="1" value="1" class="ml-auto"> 1
@@ -101,7 +102,7 @@
                                     <input type="radio" name="guestnum" id="6" value="6"> 6
                             </div>
                          </div>
-                         <div class="form-row">
+                         <div class="row">
                             <div class="form-group">
                                 <label for="section" class="col-12 col-sm-4">Section</label>
                                 <div class="col-12 col-sm-8" style="float:right;">
@@ -116,18 +117,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row form-group">
-                            <div class="col-sm-4">
+                        <div class="row form-group">
+                            <div class="col-sm-2">
                               <label for="date">Date and Time</label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3" style="float: left; padding-left:0">
                               <input type="text" name="date" id="date" placeholder="Date">
                             </div>
-                            <div class="col-sm-auto">
-                              <input type="text" name="date" id="date" placeholder="Time">
+                            <div class="col-sm-3" style="float: left; padding-left: 0;">
+                              <input type="text" name="date" id="time" placeholder="Time">
                             </div>
                           </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="col-12 col-sm-4"></div>
                             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"> Cancel </button>
                             <button type="submit" class="btn btn-primary btn-sm ml-1"> Reserve </button>
@@ -149,7 +150,7 @@
                     <img src="img/logo.png" class="img-fluid">
                 </div>
                 <div class="col-12 col-sm-3 align-self-center align-middle">
-                  <a data-target="#reserve" data-toggle="modal" role="button" class="btn btn-warning btn-sm btn-block">Reserve a Table</a>
+                  <button type="button" class="btn btn-warning btn-sm btn-block" id="reserveBtn">Reserve a Table</button>
                 </div>
             </div>
         </div>
@@ -305,6 +306,18 @@
                  $("#carouselButton").children("span").removeClass('fa-play');
                  $("#carouselButton").children("span").addClass('fa-pause');
              }
+         });
+
+         $("#loginBtn").click(function(){
+           $("#loginModal").modal({
+             show: true
+           });
+         });
+
+         $("#reserveBtn").click(function(){
+           $("#reserve").modal({
+             show: true
+           });
          });
     </script>
 
