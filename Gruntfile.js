@@ -15,8 +15,72 @@ module.exports = function(grunt) {
           'css/styles.css': 'css/styles.scss'
         }
       }
+    },
+
+    watch: {
+      files: 'css/*.scss',
+      tasks: ['sass']
+    },
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src: [
+            'css/*.css',
+            '*.html',
+            'js/*.js'
+          ]
+        },
+        options: {
+          watchTask: true,
+          server: {
+            baseDir: "./"
+          }
+        }
+      }
+    }
+
+    copy: {
+      html: {
+        files: [
+        {
+          //for html
+          expand: true;
+          dot: true;
+          cwd: './';
+          src: ['*.html'],
+          dest: 'dist'
+        }]
+      },
+      fonts: {
+        files: [
+          {
+            expand: true;
+            dot: true;
+            cwd: 'node_modules/font-awesome',
+            src: ['fonts/*.*'],
+            dest: 'dist'
+          }]
+      }
+    },
+
+    clean:{
+      build: {
+        src: ['dist/']
+      }
+    },
+
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: './',
+          src: ['img/*.{png,jpg,gif}'],
+          dest: 'dist/'
+        }]
+      }
     }
   });
 
   grunt.registerTask('css', ['sass']);
+  grunt.registerTask('default', ['browserSync', 'watch']);
 };
