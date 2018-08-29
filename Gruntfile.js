@@ -5,7 +5,9 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
 
   //Automatically load required Grunt tasks
-  require('jit-grunt')(grunt);
+  require('jit-grunt')(grunt, {
+    useminPrepare: 'grunt-usemin'
+  });
 
   //Define the configuration for all the tasks
   grunt.initConfig({
@@ -78,9 +80,112 @@ module.exports = function(grunt) {
           dest: 'dist/'
         }]
       }
+    },
+
+    useminPrepare: {
+      foo: {
+        dest: 'dist',
+        src: ['contactus.html', 'aboutus.html', 'index.html']
+      },
+      options: {
+        flow: {
+          steps: {
+            css: ['cssmin'],
+            js: ['uglify']
+          },
+          post: {
+            css: [{
+              name: 'cssmin',
+              createConfig: function(context, block) {
+                var generated = context.options.generated;
+                    generated.options = {
+                      keepSpecialComments: 0, rebase: false
+                    };
+              }
+            }]
+          }
+        }
+      }
+    },
+
+    //concat
+    concat: {
+      options: {
+        seperator: ';'
+      },
+
+      //dist configuration is provided bt useminPrepare
+      dist: {}
+    },
+
+    //uglify
+    uglify: {
+      //dist configuration is provided by useminPrepare
+      dist: {}
+    },
+
+    cssmin: {
+      dist: {}
+    },
+
+    //filerev
+    filerev: {
+      options: {
+        encoding: 'utf8',
+        algorithm: 'md5',
+        length: 20
+      },
+
+      release: {
+        //filerev: release hashes(md5) all assets (images, js and css )
+        //in dist directory
+        files: [{
+          src: [
+            'dist/js/*.js',
+            'dist/css/*.css'
+          ]
+        }]
+      }
+    },
+
+    //usemin
+    //Replaces all assets with their revved version in html and css files.
+    //options.assetDirs contains the directories for finding the assets
+    //according to their relative paths
+    usemin: {
+      html: ['dist/contactus.html', 'dist/aboutus.html', 'dist/index.html'],
+      options: {
+        assetDirs: ['dist', 'dist/css', 'dist/js']
+      }
+    },
+
+    htmlmin: {
+      dist: {
+        options: {
+          collapseWhitespace: true
+        },
+        files: {
+          'dist/index.html': 'dist/index.html',
+          'dist/contactus.html': 'dist/contactus.html',
+          'dist/aboutus.html': 'dist/aboutus.html'
+        }
+      }
     }
+
   });
 
   grunt.registerTask('css', ['sass']);
   grunt.registerTask('default', ['browserSync', 'watch']);
+  grunt.registerTask('build', [
+    'clean',
+    'copy',
+    'imagemin',
+    'useminPrepare',
+    'concat',
+    'cssmin',
+    'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin'
+  ]);
 };
